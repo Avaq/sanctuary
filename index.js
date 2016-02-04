@@ -169,6 +169,16 @@
     }
   );
 
+  //  Ord :: TypeClass
+  var Ord = $.TypeClass(
+    'sanctuary/Ord',
+    function(x) {
+      var type = _type(x);
+      return type === 'Number' && $.ValidNumber.test(x) ||
+             type === 'String';
+    }
+  );
+
   //  Semigroup :: TypeClass
   var Semigroup = $.TypeClass(
     'sanctuary/Semigroup',
@@ -2346,6 +2356,44 @@
       {},
       [$.FiniteNumber, $.NonZeroFiniteNumber, $.FiniteNumber],
       function(a, b) { return a / b; });
+
+  //# min :: Ord a => a -> a -> a
+  //.
+  //. Returns the smaller of its two arguments.
+  //.
+  //. See also [`max`](#max).
+  //.
+  //. ```javascript
+  //. > S.min(42, 99)
+  //. 42
+  //.
+  //. > S.min('xyz', 'abc')
+  //. 'abc'
+  //. ```
+  S.min =
+  def('min',
+      {a: [Ord]},
+      [a, a, a],
+      function(x, y) { return x < y ? x : y; });
+
+  //# max :: Ord a => a -> a -> a
+  //.
+  //. Returns the larger of its two arguments.
+  //.
+  //. See also [`min`](#min).
+  //.
+  //. ```javascript
+  //. > S.max(42, 99)
+  //. 99
+  //.
+  //. > S.max('xyz', 'abc')
+  //. 'xyz'
+  //. ```
+  S.max =
+  def('max',
+      {a: [Ord]},
+      [a, a, a],
+      function(x, y) { return x > y ? x : y; });
 
   //. ### Integer
 
